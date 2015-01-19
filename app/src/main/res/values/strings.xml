@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Pomodoro Timer</string>
+
+    <string name="timer_view_string">00:00</string>
+
+    <string name="start_button">Start</string>
+    <string name="stop_button">Stop</string>
+    <string name="restart_button">Restart</string>
+    <string name="countdown_button_down">Count down</string>
+    <string name="countdown_button_up">Count up</string>
+
+    <string name="action_settings">Settings</string>
+
+</resources>
