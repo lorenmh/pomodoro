@@ -5,20 +5,20 @@ import android.util.Log;
 /**
  * Created by loren on 1/18/15.
  */
-public class PomodoroTimer implements Timeable {
+public class RestTimer implements Timeable {
     private long mStartTime = 0;
     private long mSavedTime = 0;
 
     private boolean countDown = false;
 
-    private static final int END_TIME_MINUTES = 25;
+    private static final int END_TIME_MINUTES = 5;
 
-    public PomodoroTimer(boolean aCountDown) {
+    public RestTimer(boolean aCountDown) {
         countDown = aCountDown;
         mStartTime = System.currentTimeMillis();
     }
 
-    public PomodoroTimer(long savedTime, boolean aCountDown) {
+    public RestTimer(long savedTime, boolean aCountDown) {
         countDown = aCountDown;
         mStartTime = System.currentTimeMillis();
         mSavedTime = savedTime;

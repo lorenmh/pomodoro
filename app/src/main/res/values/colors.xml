@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="default_background">#FFFFFF</color>
-    <color name="alert_background">#FF0000</color>
+    <color name="pomodoro_background">#ffffe9e6</color>
+    <color name="rest_background">#ffecf0ff</color>
+    <color name="button_background">#EFEFEF</color>
 </resources>

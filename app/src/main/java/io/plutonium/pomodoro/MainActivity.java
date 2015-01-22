@@ -13,10 +13,14 @@ import android.widget.TextView;
 
 
 public class MainActivity extends ActionBarActivity {
+    TextView mPhaseText;
     TextView mTimerTextView;
     LinearLayout mLayout;
-    PomodoroTimer timer;
     long savedTime = 0;
+
+    Timeable timer;
+    boolean phasePomodoro;
+    boolean promptPhaseChange;
 
     Button mStartButton;
     Button mStopButton;
@@ -36,7 +40,8 @@ public class MainActivity extends ActionBarActivity {
         @Override
         public void run() {
             if (timer.completed()) {
-                alertBackground();
+                setTimerTextCompleted();
+                promptPhaseChange();
                 stop();
             } else {
                 mTimerHandler.postDelayed( this, currentDelay );
@@ -45,7 +50,11 @@ public class MainActivity extends ActionBarActivity {
         }
     };
 
-    protected void updateTimerTextView() {
+    private void setTimerTextCompleted() {
+        mTimerTextView.setText( timer.timeCompleted() );
+    }
+
+    private void updateTimerTextView() {
         mTimerTextView.setText( timer.timeElapsedToString() );
     }
 
@@ -53,6 +62,11 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        phasePomodoro = true;
+        promptPhaseChange = false;
+
+        mPhaseText = (TextView) findViewById(R.id.phase_text);
 
         mTimerTextView = (TextView) findViewById(R.id.timer_view);
         mLayout = (LinearLayout) findViewById(R.id.layout_view);
@@ -117,11 +131,11 @@ public class MainActivity extends ActionBarActivity {
         @Override
         public void onClick(View v) {
             if (mCurrentlyCountingDown) {
-                mCountdownButton.setText(R.string.countdown_button_up);
+                mCountdownButton.setText(R.string.countdown_button_down);
                 timer.setCountDown(false);
                 mCurrentlyCountingDown = false;
             } else {
-                mCountdownButton.setText(R.string.countdown_button_down);
+                mCountdownButton.setText(R.string.countdown_button_up);
                 timer.setCountDown(true);
                 mCurrentlyCountingDown = true;
             }
@@ -135,13 +149,32 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void start() {
-        timer = new PomodoroTimer(savedTime, mCurrentlyCountingDown);
+        if (promptPhaseChange) {
+            if (phasePomodoro) {
+                timer = new RestTimer(mCurrentlyCountingDown);
+                phasePomodoro = false;
+                clearPromptPhaseChange();
+            } else {
+                timer = new PomodoroTimer(mCurrentlyCountingDown);
+                phasePomodoro = true;
+                clearPromptPhaseChange();
+            }
+        } else {
+            if (phasePomodoro) {
+                timer = new PomodoroTimer(savedTime, mCurrentlyCountingDown);
+
+            } else {
+                timer = new RestTimer(savedTime, mCurrentlyCountingDown);
+            }
+        }
         mTimerHandler.postDelayed(mTimerRunnable, 0);
         mCurrentlyRunning = true;
     }
 
     public void restart() {
-        defaultBackground();
+        if (promptPhaseChange) {
+            clearPromptPhaseChange();
+        }
         savedTime = 0;
         if (timer.completed()) {
             start();
@@ -151,12 +184,32 @@ public class MainActivity extends ActionBarActivity {
         updateTimerTextView();
     }
 
-    private void alertBackground() {
-        mLayout.setBackgroundResource(R.color.alert_background);
+    private void setBackground() {
+        if (phasePomodoro) {
+            mLayout.setBackgroundResource(R.color.pomodoro_background);
+        } else {
+            mLayout.setBackgroundResource(R.color.rest_background);
+        }
     }
 
-    private void defaultBackground() {
-        mLayout.setBackgroundResource(R.color.default_background);
+    private void promptPhaseChange() {
+        promptPhaseChange = true;
+        if (phasePomodoro) {
+            mStartButton.setText(R.string.start_rest_button);
+        } else {
+            mStartButton.setText(R.string.start_pomodoro_button);
+        }
+    }
+
+    private void clearPromptPhaseChange() {
+        promptPhaseChange = false;
+        mStartButton.setText(R.string.start_button);
+        if (phasePomodoro) {
+            mPhaseText.setText(R.string.phase_pomodoro);
+        } else {
+            mPhaseText.setText(R.string.phase_rest);
+        }
+        setBackground();
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {

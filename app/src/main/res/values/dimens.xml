@@ -5,7 +5,7 @@
 
     <dimen name="layout_margin">12dp</dimen>
 
-    <dimen name="button_width">100dp</dimen>
+    <dimen name="button_width">120dp</dimen>
 
     <dimen name="app_name_text_size">26sp</dimen>
     <dimen name="timer_text_size">48sp</dimen>
