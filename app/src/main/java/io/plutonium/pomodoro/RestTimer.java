@@ -11,7 +11,7 @@ public class RestTimer implements Timeable {
 
     private boolean countDown = false;
 
-    private static final int END_TIME_MINUTES = 1;
+    private static final int END_TIME_MINUTES = 5;
 
     public RestTimer(boolean aCountDown) {
         countDown = aCountDown;

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Handler;
+import android.os.Vibrator;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -39,6 +40,7 @@ public class MainActivity extends ActionBarActivity {
 
     Handler mTimerHandler = new Handler();
     NotificationManager notificationManager;
+    Vibrator v;
 
     final static int NORMAL_TIMER_DELAY = 100;
     final static int BACKGROUND_TIMER_DELAY = 10000;
@@ -62,6 +64,8 @@ public class MainActivity extends ActionBarActivity {
 
     private void notifyCompleted() {
         Log.d("enter", "notifyCompleted");
+        v = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
+
         String completionText;
 
         if (phasePomodoro) {
@@ -83,6 +87,7 @@ public class MainActivity extends ActionBarActivity {
                 .setContentIntent( PendingIntent.getActivity(this, 0, intent, 0) )
                 .setSound( soundUri );
 
+        v.vibrate(250);
         notificationManager.notify(0, mBuilder.build());
     }
 

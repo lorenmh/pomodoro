@@ -12,7 +12,7 @@ public class PomodoroTimer implements Timeable {
 
     private boolean countDown = false;
 
-    private static final int END_TIME_MINUTES = 1;
+    private static final int END_TIME_MINUTES = 25;
 
     public PomodoroTimer(boolean aCountDown) {
         countDown = aCountDown;
