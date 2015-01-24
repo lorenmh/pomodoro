@@ -8,6 +8,9 @@
     <string name="phase_pomodoro">Pomodoro Timer</string>
     <string name="phase_rest">Pomodoro Rest Timer</string>
 
+    <string name="completed_pomodoro">Pomodoro Timer Completed</string>
+    <string name="completed_rest">Rest Timer Completed</string>
+
     <string name="start_button">Start</string>
     <string name="start_rest_button">Rest</string>
     <string name="start_pomodoro_button">Pomodoro</string>

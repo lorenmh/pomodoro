@@ -1,5 +1,6 @@
 package io.plutonium.pomodoro;
 
+
 import android.util.Log;
 
 /**
@@ -11,7 +12,7 @@ public class PomodoroTimer implements Timeable {
 
     private boolean countDown = false;
 
-    private static final int END_TIME_MINUTES = 25;
+    private static final int END_TIME_MINUTES = 1;
 
     public PomodoroTimer(boolean aCountDown) {
         countDown = aCountDown;
@@ -46,18 +47,26 @@ public class PomodoroTimer implements Timeable {
     }
 
     public String timeCompleted() {
-        return String.format("%02d:00", END_TIME_MINUTES);
+        if (countDown) {
+            return "00:00";
+        } else {
+            return String.format("%02d:00", END_TIME_MINUTES);
+        }
     }
 
     public String timeElapsedToString() {
-        long timeElapsedMs = timeElapsed();
-        if (countDown) {
-            timeElapsedMs = endTimeMs() - timeElapsedMs;
+        if (completed()) {
+            return timeCompleted();
+        } else {
+            long timeElapsedMs = timeElapsed();
+            if (countDown) {
+                timeElapsedMs = endTimeMs() - timeElapsedMs;
+            }
+            int totalSeconds = (int) (timeElapsedMs / 1000);
+            int seconds = (int) totalSeconds % 60;
+            int minutes = totalSeconds / 60;
+            Log.d("time elapsed", String.valueOf(timeElapsed()));
+            return String.format("%02d:%02d", minutes, seconds);
         }
-        int totalSeconds = (int) (timeElapsedMs / 1000);
-        int seconds = (int) totalSeconds % 60;
-        int minutes = totalSeconds / 60;
-        Log.d("time elapsed", String.valueOf(timeElapsed()));
-        return String.format("%02d:%02d", minutes, seconds);
     }
 }
